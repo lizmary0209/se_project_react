@@ -10,12 +10,23 @@
 
 .header__date-and-location {
   margin: 0;
+  font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
 }
 
 .header__add-clothes-btn {
   margin-left: auto;
   margin-right: 20px;
   margin: 0 20px 0 auto;
+  border: none;
+  font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
 }
 
 .header__user-container {
@@ -26,4 +37,9 @@
 
 .header__username {
   margin: 0;
+  font-family: "Cabinet Grotesk", Arial, Helvetica, sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 100%;
+  color: #000000;
 }
