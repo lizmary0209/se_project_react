@@ -1,4 +1,14 @@
 .modal {
+  position: fixed;
+  width: 498px;
+  height: 610px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background: transparent;
 }
 
@@ -18,14 +28,14 @@
 
 .modal__close {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 24px;
+  right: 24px;
   cursor: pointer;
 }
 
 .modal__image {
-  width: 100%;
-  height: auto;
+  width: 498px;
+  height: 498px;
   display: block;
   margin: 0;
 }
