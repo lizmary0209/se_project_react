@@ -1,0 +1,46 @@
+.modal {
+  background: transparent;
+}
+
+.modal__content_type_image {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  color: #000000;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+  position: relative;
+  padding: 0;
+}
+
+.modal__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  cursor: pointer;
+}
+
+.modal__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+.modal__footer {
+  height: 112px;
+  text-align: left;
+  padding: 0 32px 32px;
+}
+
+.modal__caption {
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.modal__weather {
+  margin: 0;
+}
