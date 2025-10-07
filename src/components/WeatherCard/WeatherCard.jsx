@@ -15,11 +15,6 @@ function WeatherCard({ weatherData }) {
   } else {
     weatherOption = filteredOptions[0];
   }
-  console.log("isDay:", weatherData.isDay);
-  console.log(
-    "weatherOption fallback:",
-    defaultWeatherOptions[weatherData.isDay ? "day" : "night"]
-  );
 
   return (
     <section className="weather-card">

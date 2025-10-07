@@ -9,11 +9,13 @@
   justify-content: center;
   align-items: center;
   visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .modal__open {
   visibility: visible;
-  /* set up transition */
+  opacity: 1;
 }
 
 .modal__title {
@@ -41,6 +43,12 @@
   box-sizing: border-box;
   width: 100%;
   border-radius: 20px;
+  transform: translateY(-20px);
+  transition: transform 0.3s ease;
+}
+
+.modal__open .modal__content {
+  transform: translateY(0);
 }
 
 .modal__form {
