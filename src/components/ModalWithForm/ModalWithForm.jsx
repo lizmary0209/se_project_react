@@ -9,23 +9,29 @@ function ModalWithForm({
   onClose,
   name,
 }) {
+  const isOpen = activeModal === name;
+
   return (
     <div
-      className={`modal modal_type_${name} ${
-        activeModal === name ? "modal__open" : ""
-      }`}
+      className={`modal__overlay ${isOpen ? "modal__overlay_open" : ""}`}
+      onClick={onClose}
     >
-      <div className="modal__content">
-        <h2 className="modal__title">{title}</h2>
-        <button onClick={onClose} type="button" className="modal__close">
-          <img src={modalCloseBtn} alt="Close modal" />
-        </button>
-        <form className="modal__form" name={name}>
-          {children}
-          <button type="submit" className="modal__submit">
-            {buttonText}
+      <div
+        className={`modal modal_type_${name} ${isOpen ? "modal__open" : ""}`}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="modal__content">
+          <h2 className="modal__title">{title}</h2>
+          <button onClick={onClose} type="button" className="modal__close">
+            <img src={modalCloseBtn} alt="Close modal" />
           </button>
-        </form>
+          <form className="modal__form" name={name}>
+            {children}
+            <button type="submit" className="modal__submit">
+              {buttonText}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

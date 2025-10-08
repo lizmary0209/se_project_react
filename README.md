@@ -3,6 +3,9 @@ Project Overview
 
 WTWR (What To Wear React) is a frontend web application built with React that reads weather data from the OpenWeatherMap API and recommends suitable clothing based on current weather conditions. This iteration focuses on implementing the core frontend functionality and styling of the application.
 
+Important UI Update:
+All modals now include a semi-transparent overlay (backdrop) when opened, according to the design. This ensures that the background is dimmed, helping users focus on the modal content and improving accessibility.
+
 Features Implemented
 
 -Display a set of clothing cards generated from a hard-coded array of clothing data.

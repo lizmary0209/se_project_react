@@ -1,3 +1,23 @@
+.modal__overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal__overlay_open {
+  display: flex;
+  opacity: 1;
+}
+
 .modal {
   position: fixed;
   width: 498px;
@@ -35,10 +55,12 @@
 }
 
 .modal__image {
-  width: 498px;
-  height: 498px;
+  width: 100%;
+  height: auto;
   display: block;
   margin: 0;
+  border-radius: 16px;
+  object-fit: cover;
 }
 
 .modal__footer {
