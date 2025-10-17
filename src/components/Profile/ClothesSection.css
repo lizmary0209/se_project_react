@@ -1,0 +1,20 @@
+.clothes-section {
+  flex: 1;
+  padding: 24px;
+}
+
+.clothes-section__add-btn {
+  margin-bottom: 20px;
+  font-weight: 700;
+  font-size: 16px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.clothes-section__list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+}
