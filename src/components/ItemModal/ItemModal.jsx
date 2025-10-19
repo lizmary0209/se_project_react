@@ -1,8 +1,10 @@
 import "./ItemModal.css";
 import previewClose from "../../assets/previewClose.svg";
 
-function ItemModal({ activeModal, onClose, card }) {
+function ItemModal({ activeModal, onClose, card, openConfirmationModal }) {
   const isOpen = activeModal === "preview";
+
+  if (!isOpen) return null;
 
   return (
     <div
@@ -13,7 +15,7 @@ function ItemModal({ activeModal, onClose, card }) {
         className={`modal ${isOpen ? "modal__open" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal__content modal__content_type_image">
+        <div className="modal__content">
           <button
             onClick={onClose}
             type="button"
@@ -24,8 +26,16 @@ function ItemModal({ activeModal, onClose, card }) {
           </button>
           <img src={card.link} alt={card.name} className="modal__image" />
           <div className="modal__footer">
-            <h2 className="modal__caption">{card.name}</h2>
-            <p className="modal__weather">Weather: {card.weather}</p>
+            <div className="modal__footer-text">
+              <h2 className="modal__caption">{card.name}</h2>
+              <p className="modal__weather">Weather: {card.weather}</p>
+            </div>
+            <button
+              className="modal__delete-button"
+              onClick={() => openConfirmationModal(card)}
+            >
+              Delete item
+            </button>
           </div>
         </div>
       </div>
