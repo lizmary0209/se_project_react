@@ -4,11 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 import "./App.css";
-import {
-  coordinates,
-  APIkey,
-  defaultClothingItems,
-} from "../../utils/constants";
+import { coordinates, APIkey } from "../../utils/constants";
 
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -17,14 +13,20 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
+import { defaultClothingItems } from "../../utils/constants";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
     type: "",
-    temp: { F: 999 },
+    temp: { F: null, C: null },
     city: "",
+    condition: "",
+    isDay: false,
   });
+
+  const [isWeatherDataLoaded, setIsWeatherDataLoaded] = useState(false);
+
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
@@ -49,10 +51,16 @@ function App() {
     setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
   };
 
-  const handleAddItem = (itemData, resetForm) => {
-    setClothingItems([itemData, ...clothingItems]);
-    resetForm();
-    setActiveModal("");
+  const onAddItem = (inputValues) => {
+    fetch("http://localhost:3001/items", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(inputValues),
+    })
+      .then((res) => res.json())
+      .then((item) => setClothingItems([...clothingItems, item]))
+      .catch(console.error)
+      .finally(closeActiveModal);
   };
 
   const openConfirmationModal = (card) => {
@@ -100,64 +108,65 @@ function App() {
           ...filteredData,
           temp: { F: tempF, C: tempC },
         });
+        setIsWeatherDataLoaded(true);
       })
       .catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    setClothingItems(defaultClothingItems);
   }, []);
 
   return (
     <CurrentTemperatureUnitContext.Provider
       value={{ currentTemperatureUnit, handleToggleSwitchChange }}
     >
-      <Router basename="/se_project_react">
-        <div className="page">
-          <div className="page__content">
-            <Header handleAddClick={handleAddClick} weatherData={weatherData} />
-
-            <Routes>
-              <Route
-                path="/"
-                element={
-                  <Main
-                    weatherData={weatherData}
-                    handleCardClick={handleCardClick}
-                    clothingItems={clothingItems}
-                  />
-                }
-              />
-              <Route
-                path="/profile"
-                element={
-                  <Profile
-                    clothingItems={clothingItems}
-                    handleAddClick={handleAddClick}
-                  />
-                }
-              />
-            </Routes>
-          </div>
-
-          <AddItemModal
-            isOpen={activeModal === "add-garment"}
-            onAddItem={handleAddItem}
-            onCloseModal={closeActiveModal}
+      <div className="page">
+        <div className="page__content">
+          <Header
+            handleAddClick={handleAddClick}
+            weatherData={weatherData}
+            currentTemperatureUnit={currentTemperatureUnit}
+            onToggle={handleToggleSwitchChange}
+            isWeatherDataLoaded={isWeatherDataLoaded}
           />
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <Main
+                  weatherData={weatherData}
+                  handleCardClick={handleCardClick}
+                  clothingItems={clothingItems}
+                  isWeatherDataLoaded={isWeatherDataLoaded}
+                />
+              }
+            />
+            <Route path="/profile" element={<p>Profile</p>} />
+          </Routes>
 
-          <ItemModal
-            activeModal={activeModal}
-            card={selectedCard}
-            onClose={closeActiveModal}
-            onDeleteCard={handleCardDelete}
-            openConfirmationModal={openConfirmationModal}
-          />
-
-          <DeleteConfirmationModal
-            isOpen={isConfirmModalOpen}
-            onConfirm={handleCardDelete}
-            onCancel={handleCancelDelete}
-          />
           <Footer />
         </div>
-      </Router>
+        <AddItemModal
+          isOpen={activeModal}
+          onAddItem={onAddItem}
+          onCloseModal={closeActiveModal}
+        />
+
+        <ItemModal
+          activeModal={activeModal}
+          card={selectedCard}
+          onClose={closeActiveModal}
+          onDeleteCard={handleCardDelete}
+          openConfirmationModal={openConfirmationModal}
+        />
+
+        <DeleteConfirmationModal
+          isOpen={isConfirmModalOpen}
+          onConfirm={handleCardDelete}
+          onCancel={handleCancelDelete}
+        />
+      </div>
     </CurrentTemperatureUnitContext.Provider>
   );
 }

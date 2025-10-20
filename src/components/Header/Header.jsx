@@ -9,6 +9,7 @@ function Header({
   weatherData,
   currentTemperatureUnit,
   onToggle,
+  isWeatherDataLoaded,
 }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -22,7 +23,17 @@ function Header({
           <img className="header__logo" src={logo} alt="WTWR logo" />
         </Link>
         <p className="header__date-and-location">
-          {currentDate}, {weatherData.city}
+          {currentDate}
+          {isWeatherDataLoaded ? (
+            <>
+              , {weatherData.city} •{" "}
+              {currentTemperatureUnit === "F"
+                ? `${weatherData.temp.F}°F`
+                : `${weatherData.temp.C}°C`}
+            </>
+          ) : (
+            " • Loading weather..."
+          )}
         </p>
       </div>
 
