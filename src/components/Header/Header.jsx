@@ -1,5 +1,5 @@
 import "./Header.css";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import avatar from "../../assets/avatar.png";
 import ToggleSwitch from "../ToggleSwitch/ToggleSwitch";
@@ -10,6 +10,7 @@ function Header({
   currentTemperatureUnit,
   onToggle,
   isWeatherDataLoaded,
+  username = "Terrence Tegegne",
 }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -18,10 +19,10 @@ function Header({
 
   return (
     <header className="header">
-      <div className="header__left">
-        <Link to="/">
+      <div className="header__info">
+        <NavLink to="/">
           <img className="header__logo" src={logo} alt="WTWR logo" />
-        </Link>
+        </NavLink>
         <p className="header__date-and-location">
           {currentDate}
           {isWeatherDataLoaded ? (
@@ -37,7 +38,7 @@ function Header({
         </p>
       </div>
 
-      <div className="header__right">
+      <div className="header__controls">
         <ToggleSwitch
           isCelsius={currentTemperatureUnit === "C"}
           onToggle={onToggle}
@@ -49,10 +50,11 @@ function Header({
         >
           + Add clothes
         </button>
-        <Link to="/profile" className="header__user-container">
-          <p className="header__username">Terrence Tegegne</p>
-          <img src={avatar} alt="Terrence Tegegne" className="header__avatar" />
-        </Link>
+
+        <NavLink to="/profile" className="header__profile">
+          <span className="header__user-name">{username}</span>
+          <img src={avatar} alt="user avatar" className="header__avatar" />
+        </NavLink>
       </div>
     </header>
   );

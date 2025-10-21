@@ -1,4 +1,4 @@
-.modal__overlay {
+.delete__modal_overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -14,12 +14,12 @@
   transition: opacity 0.3s ease;
 }
 
-.modal__overlay_open {
+.delete__modal_overlay_open {
   opacity: 1;
   pointer-events: auto;
 }
 
-.modal__content {
+.delete__modal_content {
   font-family: "Cabinet Grotesk", sans-serif;
   width: 670px;
   height: 280px;
@@ -33,7 +33,7 @@
   position: relative;
 }
 
-.modal__title {
+.delete__modal_title {
   font-size: 20px;
   font-weight: 700;
   line-height: 24px;
@@ -42,7 +42,15 @@
   margin-bottom: 40px;
 }
 
-.modal__buttons {
+.delete__modal_close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  border: none;
+  background-color: transparent;
+}
+
+.delete__modal_buttons {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -52,7 +60,7 @@
   line-height: 24px;
 }
 
-.modal__confirm {
+.delete__modal_confirm-btn {
   width: 200px;
   padding: 12px 0;
   background-color: transparent;
@@ -61,9 +69,10 @@
   cursor: pointer;
 }
 
-.modal__cancel {
+.delete__modal_cancel-btn {
   width: 200px;
   padding: 12px 0;
   background-color: transparent;
   color: #000000;
+  border: none;
 }

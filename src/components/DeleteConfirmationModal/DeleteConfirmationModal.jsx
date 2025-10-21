@@ -1,25 +1,39 @@
 import "./DeleteConfirmationModal.css";
+import deleteModalBtn from "../../assets/deletemodalbtn.svg";
 
 function DeleteConfirmationModal({ isOpen, onConfirm, onCancel }) {
   if (!isOpen) return null;
 
   return (
     <div
-      className={`modal__overlay ${isOpen ? "modal__overlay_open" : ""}`}
+      className={`delete__modal_overlay ${
+        isOpen ? "delete__modal_overlay_open" : ""
+      }`}
       onClick={onCancel}
     >
-      <div className="modal" onClick={(e) => e.stopPropagation()}>
-        <div className="modal__content">
-          <p className="modal__title">
-            Are you sure you want to delete this item?{" "}
-          </p>
-          <p>This action is irreversible.</p>
-          <div className="modal__buttons">
-            <button className="modal__cancel-btn" onClick={onCancel}>
-              Cancel
+      <div className="delete__modal" onClick={(e) => e.stopPropagation()}>
+        <div className="delete__modal_content">
+          <div className="delete__modal_content-btn">
+            <button
+              onClick={onCancel}
+              type="button"
+              className="delete__modal_close"
+              aria-label="Close delete modal"
+            >
+              <img src={deleteModalBtn} alt="Close delete modal" />
             </button>
-            <button className="modal__confirm-btn" onClick={onConfirm}>
+          </div>
+          <div className="delete__modal_title">
+            <p> Are you sure you want to delete this item? </p>
+            <p>This action is irreversible.</p>
+          </div>
+
+          <div className="delete__modal_buttons">
+            <button className="delete__modal_confirm-btn" onClick={onConfirm}>
               Yes, delete item
+            </button>
+            <button className="delete__modal_cancel-btn" onClick={onCancel}>
+              Cancel
             </button>
           </div>
         </div>

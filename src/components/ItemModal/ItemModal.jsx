@@ -8,30 +8,36 @@ function ItemModal({ activeModal, onClose, card, openConfirmationModal }) {
 
   return (
     <div
-      className={`modal__overlay ${isOpen ? "modal__overlay_open" : ""}`}
+      className={`item__modal_overlay ${
+        isOpen ? "item__modal_overlay_open" : ""
+      }`}
       onClick={onClose}
     >
       <div
-        className={`modal ${isOpen ? "modal__open" : ""}`}
+        className={`item__modal ${isOpen ? "item__modal_open" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="modal__content">
+        <div className="item__modal_content">
           <button
             onClick={onClose}
             type="button"
-            className="modal__close"
+            className="item__modal_close"
             aria-label="Close preview modal"
           >
             <img src={previewClose} alt="Close preview modal" />
           </button>
-          <img src={card.link} alt={card.name} className="modal__image" />
-          <div className="modal__footer">
-            <div className="modal__footer-text">
-              <h2 className="modal__caption">{card.name}</h2>
-              <p className="modal__weather">Weather: {card.weather}</p>
+          <img
+            src={card.imageUrl}
+            alt={card.name}
+            className="item__modal_image"
+          />
+          <div className="item__modal_footer">
+            <div className="item__modal_footer-text">
+              <h2 className="item__modal_caption">{card.name}</h2>
+              <p className="item__modal_weather">Weather: {card.weather}</p>
             </div>
             <button
-              className="modal__delete-button"
+              className="item__modal_delete-button"
               onClick={() => openConfirmationModal(card)}
             >
               Delete item

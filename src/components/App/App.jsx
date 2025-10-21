@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import { Routes, Route } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 import "./App.css";
@@ -13,8 +12,9 @@ import AddItemModal from "../AddItemModal/AddItemModal";
 import ItemModal from "../ItemModal/ItemModal";
 import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
-import { defaultClothingItems } from "../../utils/constants";
+
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
+import { getItems } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -30,7 +30,7 @@ function App() {
   const [activeModal, setActiveModal] = useState("");
   const [selectedCard, setSelectedCard] = useState({});
   const [currentTemperatureUnit, setCurrentTemperatureUnit] = useState("F");
-  const [clothingItems, setClothingItems] = useState(defaultClothingItems);
+  const [clothingItems, setClothingItems] = useState([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
 
@@ -71,12 +71,20 @@ function App() {
   const handleCardDelete = () => {
     if (!cardToDelete) return;
 
-    setClothingItems(
-      clothingItems.filter((item) => item.id !== cardToDelete.id)
-    );
-    setCardToDelete(null);
-    setIsConfirmModalOpen(false);
-    setActiveModal("");
+    fetch(`http://localhost:3001/items/${cardToDelete.id}`, {
+      method: "DELETE",
+    })
+      .then(() => {
+        setClothingItems((prev) =>
+          prev.filter((item) => item._id !== cardToDelete._id)
+        );
+      })
+      .catch(console.error)
+      .finally(() => {
+        setCardToDelete(null);
+        setIsConfirmModalOpen(false);
+        setActiveModal("");
+      });
   };
 
   const handleCancelDelete = () => {
@@ -87,15 +95,9 @@ function App() {
   useEffect(() => {
     if (!activeModal) return;
 
-    const handleEscClose = (e) => {
-      if (e.key === "Escape") {
-        closeActiveModal();
-      }
-    };
+    const handleEscClose = (e) => e.key === "Escape" && closeActiveModal();
     document.addEventListener("keydown", handleEscClose);
-    return () => {
-      document.removeEventListener("keydown", handleEscClose);
-    };
+    return () => document.removeEventListener("keydown", handleEscClose);
   }, [activeModal]);
 
   useEffect(() => {
@@ -111,10 +113,19 @@ function App() {
         setIsWeatherDataLoaded(true);
       })
       .catch(console.error);
+
+    getItems()
+      .then((data) => {
+        setClothingItems(data);
+      })
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
-    setClothingItems(defaultClothingItems);
+    fetch("http://localhost:3001/items")
+      .then((res) => res.json())
+      .then((data) => setClothingItems(data))
+      .catch(console.error);
   }, []);
 
   return (
@@ -142,13 +153,22 @@ function App() {
                 />
               }
             />
-            <Route path="/profile" element={<p>Profile</p>} />
+            <Route
+              path="/profile"
+              element={
+                <Profile
+                  onCardClick={handleCardClick}
+                  clothingItems={clothingItems}
+                />
+              }
+            />
           </Routes>
 
           <Footer />
         </div>
+
         <AddItemModal
-          isOpen={activeModal}
+          isOpen={activeModal === "add-garment"}
           onAddItem={onAddItem}
           onCloseModal={closeActiveModal}
         />
