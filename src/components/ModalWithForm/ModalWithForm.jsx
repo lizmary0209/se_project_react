@@ -4,14 +4,13 @@ import modalCloseBtn from "../../assets/modalCloseBtn.svg";
 function ModalWithForm({
   buttonText,
   title,
-  activeModal,
+  isOpen,
   onClose,
   name,
   onSubmit,
   children,
+  isDisabled = false,
 }) {
-  const isOpen = activeModal === name;
-
   return (
     <div
       className={`modal__overlay ${isOpen ? "modal__overlay_open" : ""}`}
@@ -28,7 +27,11 @@ function ModalWithForm({
           <h2 className="modal__title">{title}</h2>
           <form onSubmit={onSubmit} className="modal__form" name={name}>
             {children}
-            <button type="submit" className="modal__submit">
+            <button
+              type="submit"
+              className="modal__submit"
+              disabled={isDisabled}
+            >
               {buttonText}
             </button>
           </form>

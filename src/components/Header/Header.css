@@ -44,7 +44,7 @@
 }
 
 .header__add-clothes-btn:hover {
-  background-color: #444;
+  background-color: transparent;
 }
 
 .header__profile {

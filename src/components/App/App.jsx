@@ -76,7 +76,7 @@ function App() {
     })
       .then(() => {
         setClothingItems((prev) =>
-          prev.filter((item) => item._id !== cardToDelete._id)
+          prev.filter((item) => item.id !== cardToDelete.id)
         );
       })
       .catch(console.error)
@@ -159,6 +159,7 @@ function App() {
                 <Profile
                   onCardClick={handleCardClick}
                   clothingItems={clothingItems}
+                  onAddClick={handleAddClick}
                 />
               }
             />

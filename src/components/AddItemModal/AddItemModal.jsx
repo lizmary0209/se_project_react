@@ -7,7 +7,8 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
     imageUrl: "",
     weather: "",
   };
-  const { values, handleChange, resetForm } = useForm(defaultValues);
+  const { values, handleChange, resetForm, errors, isValid } =
+    useForm(defaultValues);
 
   function handleSubmit(evt) {
     evt.preventDefault();
@@ -20,9 +21,10 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
       name="add-garment"
       title="New garment"
       buttonText="Add garment"
-      activeModal={isOpen}
+      isOpen={isOpen}
       onClose={onCloseModal}
       onSubmit={handleSubmit}
+      isDisabled={!isValid}
     >
       <label htmlFor="name" className="modal__label">
         Name{" "}
