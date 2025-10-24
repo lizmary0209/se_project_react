@@ -22,7 +22,10 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
       title="New garment"
       buttonText="Add garment"
       isOpen={isOpen}
-      onClose={onCloseModal}
+      onClose={() => {
+        resetForm();
+        onCloseModal();
+      }}
       onSubmit={handleSubmit}
       isDisabled={!isValid}
     >
@@ -40,6 +43,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
           value={values.name}
           onChange={handleChange}
         />
+        <span className="modal__error">{errors.name}</span>
       </label>
       <label htmlFor="imageUrl" className="modal__label">
         Image{" "}
@@ -53,6 +57,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
           value={values.imageUrl}
           onChange={handleChange}
         />
+        <span className="modal__error">{errors.imageUrl}</span>
       </label>
       <fieldset className="modal__radio-buttons">
         <legend className="modal__legend">Select the weather type:</legend>
@@ -65,6 +70,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
             checked={values.weather === "hot"}
             onChange={handleChange}
             className="modal__radio-input"
+            required
           />
           Hot
         </label>
@@ -77,6 +83,7 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
             checked={values.weather === "warm"}
             onChange={handleChange}
             className="modal__radio-input"
+            required
           />
           Warm
         </label>
@@ -89,9 +96,11 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
             checked={values.weather === "cold"}
             onChange={handleChange}
             className="modal__radio-input"
+            required
           />
           Cold
         </label>
+        <span className="modal__error">{errors.weather}</span>
       </fieldset>
     </ModalWithForm>
   );

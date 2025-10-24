@@ -6,21 +6,16 @@ export function useForm(defaultValues) {
   const [isValid, setIsValid] = useState(false);
 
   function handleChange(evt) {
-    const { name, value, type, checked } = evt.target;
+    const { name, value } = evt.target;
 
-    const newValue = type === "checkbox" ? checked : value;
-
-    setValues((prev) => ({ ...prev, [name]: newValue }));
+    setValues((prev) => ({ ...prev, [name]: value }));
 
     let errorMessage = "";
-    if (!newValue) {
+    if (!value) {
       errorMessage = "This field is required";
-    } else if (name === "imageUrl" && !/^https?:\/\/.+/.test(newValue)) {
+    } else if (name === "imageUrl" && !/^https?:\/\/.+/.test(value)) {
       errorMessage = "Enter a valid URL";
-    } else if (
-      name === "name" &&
-      (newValue.length < 1 || newValue.length > 30)
-    ) {
+    } else if (name === "name" && (value.length < 2 || value.length > 30)) {
       errorMessage = "Name must be 1–30 characters";
     }
 

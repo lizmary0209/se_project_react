@@ -58,7 +58,7 @@ function App() {
       body: JSON.stringify(inputValues),
     })
       .then((res) => res.json())
-      .then((item) => setClothingItems([...clothingItems, item]))
+      .then((item) => setClothingItems([item, ...clothingItems]))
       .catch(console.error)
       .finally(closeActiveModal);
   };

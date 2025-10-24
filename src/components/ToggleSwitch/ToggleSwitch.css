@@ -6,6 +6,7 @@
   cursor: pointer;
   overflow: hidden;
   position: relative;
+  padding: 2px;
 }
 
 .toggle-switch__checkbox {
