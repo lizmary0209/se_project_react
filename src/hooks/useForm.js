@@ -15,8 +15,12 @@ export function useForm(defaultValues) {
       errorMessage = "This field is required";
     } else if (name === "imageUrl" && !/^https?:\/\/.+/.test(value)) {
       errorMessage = "Enter a valid URL";
-    } else if (name === "name" && (value.length < 2 || value.length > 30)) {
-      errorMessage = "Name must be 1–30 characters";
+    } else if (
+      name === "name" &&
+      value.length > 0 &&
+      (value.length < 2 || value.length > 30)
+    ) {
+      errorMessage = "Name must be 2–30 characters";
     }
 
     setErrors((prev) => ({ ...prev, [name]: errorMessage }));

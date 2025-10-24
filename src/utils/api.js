@@ -1,12 +1,26 @@
-const baseUrl = "http://localhost:3001";
+export const BASE_URL = "http://localhost:3001";
 
-const headers = {
-  "Content-Type": "application/json",
-};
+function handleServerResponse(res) {
+  if (!res.ok) {
+    return Promise.reject(`Error: ${res.status}`);
+  }
+  return res.json();
+}
 
-const handleServerResponse = (res) => {
-  return res.ok ? res.json() : Promise.reject(`Error: ${res.status}`);
-};
+export function getItems() {
+  return fetch(`${BASE_URL}/items`).then(handleServerResponse);
+}
 
-export const getItems = () =>
-  fetch(`${baseUrl}/items`, { headers }).then(handleServerResponse);
+export function addItem(inputValues) {
+  return fetch(`${BASE_URL}/items`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(inputValues),
+  }).then(handleServerResponse);
+}
+
+export function deleteItem(id) {
+  return fetch(`${BASE_URL}/items/${id}`, {
+    method: "DELETE",
+  }).then(handleServerResponse);
+}

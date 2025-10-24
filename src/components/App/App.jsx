@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 import "./App.css";
-import { coordinates, APIkey } from "../../utils/constants";
+import { coordinates, apiKey } from "../../utils/constants";
 
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -14,7 +14,7 @@ import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import { getItems } from "../../utils/api";
+import { getItems, addItem, deleteItem } from "../../utils/api";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -48,19 +48,19 @@ function App() {
   };
 
   const handleToggleSwitchChange = () => {
-    setCurrentTemperatureUnit(currentTemperatureUnit === "F" ? "C" : "F");
+    setCurrentTemperatureUnit((prev) => (prev === "F" ? "C" : "F"));
   };
 
-  const onAddItem = (inputValues) => {
-    fetch("http://localhost:3001/items", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(inputValues),
-    })
-      .then((res) => res.json())
-      .then((item) => setClothingItems([item, ...clothingItems]))
-      .catch(console.error)
-      .finally(closeActiveModal);
+  const onAddItem = (inputValues, resetForm) => {
+    addItem(inputValues)
+      .then((item) => {
+        setClothingItems([item, ...clothingItems]);
+        resetForm();
+        closeActiveModal();
+      })
+      .catch((err) => {
+        console.error("Add item failed:", err);
+      });
   };
 
   const openConfirmationModal = (card) => {
@@ -71,9 +71,7 @@ function App() {
   const handleCardDelete = () => {
     if (!cardToDelete) return;
 
-    fetch(`http://localhost:3001/items/${cardToDelete.id}`, {
-      method: "DELETE",
-    })
+    deleteItem(cardToDelete.id)
       .then(() => {
         setClothingItems((prev) =>
           prev.filter((item) => item.id !== cardToDelete.id)
@@ -101,7 +99,7 @@ function App() {
   }, [activeModal]);
 
   useEffect(() => {
-    getWeather(coordinates, APIkey)
+    getWeather(coordinates, apiKey)
       .then((data) => {
         const filteredData = filterWeatherData(data);
         const tempF = filteredData.temp.F;
@@ -118,13 +116,6 @@ function App() {
       .then((data) => {
         setClothingItems(data);
       })
-      .catch(console.error);
-  }, []);
-
-  useEffect(() => {
-    fetch("http://localhost:3001/items")
-      .then((res) => res.json())
-      .then((data) => setClothingItems(data))
       .catch(console.error);
   }, []);
 
