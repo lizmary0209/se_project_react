@@ -1,4 +1,8 @@
-.item__card {
+.item-card {
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
   width: 323px;
   position: relative;
   display: flex;
@@ -6,7 +10,7 @@
   margin-bottom: 0px;
 }
 
-.item__card_name {
+.item-card__name {
   position: absolute;
   top: 15px;
   margin: 0;
@@ -14,13 +18,9 @@
   background-color: #ffffff;
   border-radius: 4px;
   padding: 2px 12px;
-  font-family: "Cabinet Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  line-height: 20px;
 }
 
-.item__card_image {
+.item-card__image {
   width: 100%;
   height: 398px;
   object-fit: cover;
@@ -28,10 +28,10 @@
   border-radius: 4px;
 }
 
-.item__card_image:hover {
+.item-card__image:hover {
   cursor: pointer;
 }
 
-.item__card:nth-last-child(-n + 3) {
+.item-card:nth-last-child(-n + 3) {
   margin-bottom: 85px;
 }

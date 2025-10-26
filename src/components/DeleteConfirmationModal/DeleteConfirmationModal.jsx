@@ -6,33 +6,35 @@ function DeleteConfirmationModal({ isOpen, onConfirm, onCancel }) {
 
   return (
     <div
-      className={`delete__modal_overlay ${
-        isOpen ? "delete__modal_overlay_open" : ""
+      className={`delete-modal__overlay ${
+        isOpen ? "delete-modal__overlay--open" : ""
       }`}
       onClick={onCancel}
     >
-      <div className="delete__modal" onClick={(e) => e.stopPropagation()}>
-        <div className="delete__modal_content">
-          <div className="delete__modal_content-btn">
-            <button
-              onClick={onCancel}
-              type="button"
-              className="delete__modal_close"
-              aria-label="Close delete modal"
-            >
-              <img src={deleteModalBtn} alt="Close delete modal" />
-            </button>
-          </div>
-          <div className="delete__modal_title">
+      <div className="delete-modal" onClick={(e) => e.stopPropagation()}>
+        <div className="delete-modal__content">
+          <button
+            onClick={onCancel}
+            type="button"
+            className="delete-modal__close"
+            aria-label="Close delete modal"
+          >
+            <img src={deleteModalBtn} alt="Close delete modal" />
+          </button>
+
+          <div className="delete-modal__title">
             <p> Are you sure you want to delete this item? </p>
             <p>This action is irreversible.</p>
           </div>
 
-          <div className="delete__modal_buttons">
-            <button className="delete__modal_confirm-btn" onClick={onConfirm}>
+          <div className="delete-modal__buttons">
+            <button
+              className="delete-modal__button--confirm"
+              onClick={onConfirm}
+            >
               Yes, delete item
             </button>
-            <button className="delete__modal_cancel-btn" onClick={onCancel}>
+            <button className="delete-modal__button--cancel" onClick={onCancel}>
               Cancel
             </button>
           </div>

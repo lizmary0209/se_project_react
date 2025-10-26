@@ -23,7 +23,7 @@ function Header({
         <NavLink to="/">
           <img className="header__logo" src={logo} alt="WTWR logo" />
         </NavLink>
-        <p className="header__date-and-location">
+        <p className="header__date-location">
           {currentDate}
           {isWeatherDataLoaded ? (
             <>
