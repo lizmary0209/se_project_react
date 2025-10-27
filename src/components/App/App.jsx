@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import CurrentTemperatureUnitContext from "../../contexts/CurrentTemperatureUnitContext";
 
 import "./App.css";
-import { coordinates, apiKey } from "../../utils/constants";
+import { apiKey } from "../../utils/constants";
 
 import Header from "../Header/Header";
 import Main from "../Main/Main";
@@ -99,18 +99,42 @@ function App() {
   }, [activeModal]);
 
   useEffect(() => {
-    getWeather(coordinates, apiKey)
-      .then((data) => {
-        const filteredData = filterWeatherData(data);
-        const tempF = filteredData.temp.F;
-        const tempC = Math.round(((tempF - 32) * 5) / 9);
-        setWeatherData({
-          ...filteredData,
-          temp: { F: tempF, C: tempC },
-        });
-        setIsWeatherDataLoaded(true);
-      })
-      .catch(console.error);
+    const fallbackCoords = { latitude: 41.66753, longitude: -72.78344 };
+
+    const handleWeatherResponse = (data) => {
+      const filteredData = filterWeatherData(data);
+      const tempF = filteredData.temp.F;
+      const tempC = Math.round(((tempF - 32) * 5) / 9);
+      setWeatherData({
+        ...filteredData,
+        temp: { F: tempF, C: tempC },
+      });
+      setIsWeatherDataLoaded(true);
+    };
+
+    if (navigator && navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const coords = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          };
+          getWeather(coords, apiKey).then(handleWeatherResponse).catch((err) => {
+            console.error("getWeather failed using geolocation coords:", err);
+            // fallback
+            getWeather(fallbackCoords, apiKey).then(handleWeatherResponse).catch(console.error);
+          });
+        },
+        (err) => {
+          console.warn("Geolocation permission denied or unavailable, using fallback coords", err);
+          getWeather(fallbackCoords, apiKey).then(handleWeatherResponse).catch(console.error);
+        },
+        { enableHighAccuracy: false, timeout: 10000 }
+      );
+    } else {
+      // navigator.geolocation not available
+      getWeather(fallbackCoords, apiKey).then(handleWeatherResponse).catch(console.error);
+    }
 
     getItems()
       .then((data) => {

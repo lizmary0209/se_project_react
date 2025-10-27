@@ -1,5 +1,5 @@
 import ModalWithForm from "../ModalWithForm/ModalWithForm";
-import { useForm } from "../../hooks/useForm";
+import { useFormWithValidation } from "../../hooks/useFormWithValidation";
 import { useMemo, useEffect } from "react";
 
 const defaultValues = {
@@ -9,20 +9,36 @@ const defaultValues = {
 };
 
 const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
-  const { values, handleChange, resetForm, errors, isValid } =
-    useForm(defaultValues);
+  const {
+    values,
+    handleChange,
+    resetForm,
+    errors,
+    isValid,
+    showErrors,
+    setShowErrors,
+    validateAllFields,
+  } = useFormWithValidation(defaultValues);
 
   useEffect(() => {
     if (isOpen) {
       resetForm();
+      setShowErrors(false);
     }
   }, [isOpen]);
 
   function handleSubmit(evt) {
     evt.preventDefault();
-    onAddItem(values, resetForm);
+    setShowErrors(true);
+    validateAllFields();  // This will update isValid state
   }
-
+    function handleSubmit(evt) {
+      evt.preventDefault();
+      const isFormValid = validateAllFields();
+      if (isFormValid) {
+        onAddItem(values, resetForm);
+      }
+    }
   return (
     <ModalWithForm
       name="add-garment"
@@ -34,19 +50,16 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
         onCloseModal();
       }}
       onSubmit={handleSubmit}
-      isDisabled={!isValid}
+      isDisabled={showErrors && !isValid}
     >
       <label htmlFor="name" className="modal__label">
         Name
         <input
           type="text"
-          className="modal__input"
+          className={`modal__input ${errors.name ? "modal__input_error" : ""}`}
           id="name"
           name="name"
           placeholder="Name"
-          required
-          minLength="1"
-          maxLength="30"
           value={values.name}
           onChange={handleChange}
         />
@@ -57,11 +70,12 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
         Image
         <input
           type="url"
-          className="modal__input"
+          className={`modal__input ${
+            errors.imageUrl ? "modal__input_error" : ""
+          }`}
           id="imageUrl"
           name="imageUrl"
           placeholder="Image URL"
-          required
           value={values.imageUrl}
           onChange={handleChange}
         />
@@ -85,7 +99,6 @@ const AddItemModal = ({ isOpen, onAddItem, onCloseModal }) => {
               checked={values.weather === w}
               onChange={handleChange}
               className="modal__radio-input"
-              required
             />
             {w.charAt(0).toUpperCase() + w.slice(1)}
           </label>
