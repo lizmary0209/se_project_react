@@ -16,6 +16,13 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import { getItems, addItem, deleteItem } from "../../utils/api";
 
+const express = require("express");
+const mongoose = require("mongoose");
+
+const app = express();
+
+mongoose.connect("mongodb://127.0.0.1:27017/mydb");
+
 function App() {
   const [weatherData, setWeatherData] = useState({
     type: "",
@@ -119,21 +126,32 @@ function App() {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
           };
-          getWeather(coords, apiKey).then(handleWeatherResponse).catch((err) => {
-            console.error("getWeather failed using geolocation coords:", err);
-            // fallback
-            getWeather(fallbackCoords, apiKey).then(handleWeatherResponse).catch(console.error);
-          });
+          getWeather(coords, apiKey)
+            .then(handleWeatherResponse)
+            .catch((err) => {
+              console.error("getWeather failed using geolocation coords:", err);
+              // fallback
+              getWeather(fallbackCoords, apiKey)
+                .then(handleWeatherResponse)
+                .catch(console.error);
+            });
         },
         (err) => {
-          console.warn("Geolocation permission denied or unavailable, using fallback coords", err);
-          getWeather(fallbackCoords, apiKey).then(handleWeatherResponse).catch(console.error);
+          console.warn(
+            "Geolocation permission denied or unavailable, using fallback coords",
+            err
+          );
+          getWeather(fallbackCoords, apiKey)
+            .then(handleWeatherResponse)
+            .catch(console.error);
         },
         { enableHighAccuracy: false, timeout: 10000 }
       );
     } else {
       // navigator.geolocation not available
-      getWeather(fallbackCoords, apiKey).then(handleWeatherResponse).catch(console.error);
+      getWeather(fallbackCoords, apiKey)
+        .then(handleWeatherResponse)
+        .catch(console.error);
     }
 
     getItems()
@@ -206,5 +224,7 @@ function App() {
     </CurrentTemperatureUnitContext.Provider>
   );
 }
+
+app.listen(3000);
 
 export default App;
