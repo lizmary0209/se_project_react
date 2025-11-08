@@ -16,13 +16,6 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import { getItems, addItem, deleteItem } from "../../utils/api";
 
-const express = require("express");
-const mongoose = require("mongoose");
-
-const app = express();
-
-mongoose.connect("mongodb://127.0.0.1:27017/mydb");
-
 function App() {
   const [weatherData, setWeatherData] = useState({
     type: "",
@@ -148,7 +141,6 @@ function App() {
         { enableHighAccuracy: false, timeout: 10000 }
       );
     } else {
-      // navigator.geolocation not available
       getWeather(fallbackCoords, apiKey)
         .then(handleWeatherResponse)
         .catch(console.error);
@@ -224,7 +216,5 @@ function App() {
     </CurrentTemperatureUnitContext.Provider>
   );
 }
-
-app.listen(3000);
 
 export default App;
