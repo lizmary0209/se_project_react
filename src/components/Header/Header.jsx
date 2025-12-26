@@ -11,6 +11,8 @@ function Header({
   onToggle,
   isWeatherDataLoaded,
   username = "Terrence Tegegne",
+  openRegisterModal,
+  openLoginModal,
 }) {
   const currentDate = new Date().toLocaleString("default", {
     month: "long",
@@ -49,6 +51,22 @@ function Header({
           className="header__add-clothes-btn"
         >
           + Add clothes
+        </button>
+
+        <button
+          type="button"
+          className="header__register-btn"
+          onClick={openRegisterModal}
+        >
+          Sign Up
+        </button>
+
+        <button
+          onClick={openLoginModal}
+          type="button"
+          className="header__login-btn"
+        >
+          Log In
         </button>
 
         <NavLink to="/profile" className="header__profile">

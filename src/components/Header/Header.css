@@ -47,6 +47,54 @@
   background-color: transparent;
 }
 
+.header__register-btn {
+  border: none;
+  background-color: transparent;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.header__register-btn:hover {
+  opacity: 0.8;
+}
+
+.header__register-btn {
+  border: none;
+  background-color: transparent;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.header__register-btn:hover {
+  opacity: 0.8;
+}
+
+.header__login-btn {
+  border: none;
+  background-color: transparent;
+  color: #000000;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.header__login-btn:hover {
+  opacity: 0.8;
+}
+
 .header__profile {
   display: flex;
   align-items: center;

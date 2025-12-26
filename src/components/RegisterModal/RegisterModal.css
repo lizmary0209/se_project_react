@@ -1,0 +1,146 @@
+.register-modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 496px;
+  height: 456px;
+  background-color: #ffffff;
+  border-radius: 20px;
+  padding: 28px 28px 34px;
+  box-sizing: border-box;
+  z-index: 1000;
+  font-family: "Cabinet Grotesk", sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.register-modal__header {
+  color: #000000;
+  margin-bottom: 24px;
+}
+
+.register-modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.register-modal__label {
+  display: flex;
+  flex-direction: column;
+  color: #000000;
+  margin: 0;
+  padding: 0;
+}
+
+.register-modal__label input {
+  margin-top: 8px;
+}
+
+.register-modal__form input {
+  width: 100%;
+  margin: 0;
+  border: none;
+  border-bottom: 1px solid #000000;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: #000000;
+}
+
+.register-modal__form input::placeholder {
+  color: #00000080;
+}
+
+.register-modal__form input.error {
+  color: #ff4d00;
+  border-bottom: 1px solid #ff4d00;
+}
+
+.register-modal__form input.error::placeholder {
+  color: #ff4d00;
+}
+
+.register-modal__submit-btn {
+  width: 86px;
+  height: 36px;
+  border-radius: 4px;
+  background: #0000004d;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  margin-top: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  white-space: nowrap;
+}
+
+.register-modal__submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.register-modal__switch {
+  margin-top: 30px;
+  margin-left: 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: #00000080;
+  white-space: nowrap;
+}
+
+.register-modal__switch button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: #00000080;
+  cursor: pointer;
+}
+
+.register-modal__switch button:hover {
+  text-decoration: underline;
+}
+
+.register-modal__close-btn {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  border: none;
+  background: none;
+  font-size: 24px;
+  color: #00000030;
+  cursor: pointer;
+}
+
+.register-modal__form {
+  display: grid;
+  grid-template-columns: 86px auto;
+  grid-auto-rows: auto;
+  row-gap: 24px;
+  column-gap: 16px;
+}
+
+.register-modal__label {
+  grid-column: 1 / -1;
+}
+
+.register-modal__submit-btn {
+  grid-column: 1;
+  margin-top: 6px;
+  justify-self: start;
+}
+
+.register-modal__switch {
+  grid-column: 2;
+  margin-top: 6px;
+  justify-self: start;
+  margin-left: 0;
+  display: inline-flex;
+  align-items: center;
+}

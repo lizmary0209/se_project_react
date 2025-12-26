@@ -16,6 +16,10 @@ import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
 import { getItems, addItem, deleteItem } from "../../utils/api";
 
+import RegisterModal from "../RegisterModal/RegisterModal";
+import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import LoginModal from "../LoginModal/LoginModal";
+
 function App() {
   const [weatherData, setWeatherData] = useState({
     type: "",
@@ -33,6 +37,9 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
+
+  const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -88,6 +95,33 @@ function App() {
   const handleCancelDelete = () => {
     setCardToDelete(null);
     setIsConfirmModalOpen(false);
+  };
+
+  const openRegisterModal = () => {
+    setIsRegisterModalOpen(true);
+  };
+
+  const closeRegisterModal = () => {
+    setIsRegisterModalOpen(false);
+  };
+
+  const openLoginModal = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const closeLoginModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
+  const handleLogin = (data) => {
+    if (data.token) {
+      localStorage.setItem("jwt", data.token);
+    }
+  };
+
+  const switchToLoginModal = () => {
+    closeRegisterModal();
+    openLoginModal();
   };
 
   useEffect(() => {
@@ -165,6 +199,8 @@ function App() {
             currentTemperatureUnit={currentTemperatureUnit}
             onToggle={handleToggleSwitchChange}
             isWeatherDataLoaded={isWeatherDataLoaded}
+            openRegisterModal={openRegisterModal}
+            openLoginModal={openLoginModal}
           />
           <Routes>
             <Route
@@ -181,11 +217,13 @@ function App() {
             <Route
               path="/profile"
               element={
-                <Profile
-                  onCardClick={handleCardClick}
-                  clothingItems={clothingItems}
-                  onAddClick={handleAddClick}
-                />
+                <ProtectedRoute>
+                  <Profile
+                    onCardClick={handleCardClick}
+                    clothingItems={clothingItems}
+                    onAddClick={handleAddClick}
+                  />
+                </ProtectedRoute>
               }
             />
           </Routes>
@@ -212,6 +250,21 @@ function App() {
           onConfirm={handleCardDelete}
           onCancel={handleCancelDelete}
         />
+
+        {isRegisterModalOpen && (
+          <RegisterModal
+            onClose={closeRegisterModal}
+            onRegister={(data) => {
+              console.log("User registered:", data);
+              closeRegisterModal();
+            }}
+            onLogInClick={switchToLoginModal}
+          />
+        )}
+
+        {isLoginModalOpen && (
+          <LoginModal onClose={closeLoginModal} onLogin={handleLogin} />
+        )}
       </div>
     </CurrentTemperatureUnitContext.Provider>
   );
