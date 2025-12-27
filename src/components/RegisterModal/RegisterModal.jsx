@@ -1,36 +1,26 @@
 import React, { useState } from "react";
-import { signup } from "../../utils/auth";
 import "./RegisterModal.css";
 
 function RegisterModal({ onClose, onRegister, onLogInClick }) {
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
   const [avatar, setAvatar] = useState("");
-  const [error, setError] = useState("");
+
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!email || !password || !name || !avatar) return;
 
-    if (!name || !email || !password || !avatar) {
-      setError("All fields are required");
-      return;
-    }
+    setError(false);
 
-    console.log("Sending signup payload:", { name, email, password, avatar });
-
-    signup(name, email, password, avatar)
-      .then((data) => {
-        console.log("User registered:", data);
-        setError("");
-        if (onRegister) onRegister(data);
-        if (onClose) onClose();
-      })
-      .catch((err) => {
-        console.error("Signup failed:", err);
-        setError(err.message || "Signup failed");
-      });
+    Promise.resolve(onRegister({ name, avatar, email, password })).catch(() => {
+      setError(true);
+    });
   };
+
+  const isDisabled = !email || !password || !name || !avatar;
 
   return (
     <div className="register-modal">
@@ -38,57 +28,71 @@ function RegisterModal({ onClose, onRegister, onLogInClick }) {
 
       <form className="register-modal__form" onSubmit={handleSubmit}>
         <label className="register-modal__label">
-          Email
+          Email*
           <input
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={error && !email ? "error" : ""}
-            placeholder={error && !email ? error : "Email"}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (error) setError(false);
+            }}
+            placeholder="Email"
             required
           />
         </label>
 
         <label className="register-modal__label">
-          Password
+          Password*
           <input
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className={error && !password ? "error" : ""}
-            placeholder={error && !password ? error : "Password"}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (error) setError(false);
+            }}
+            placeholder="Password"
             required
           />
         </label>
 
         <label className="register-modal__label">
-          Name
+          Name *
           <input
             type="text"
             value={name}
-            onChange={(e) => setName(e.target.value)}
-            className={error && !name ? "error" : ""}
-            placeholder={error && !name ? error : "Name"}
+            onChange={(e) => {
+              setName(e.target.value);
+              if (error) setError(false);
+            }}
+            placeholder="Name"
             required
           />
         </label>
 
         <label className="register-modal__label">
-          Avatar URL
+          Avatar URL *
           <input
             type="text"
             value={avatar}
-            onChange={(e) => setAvatar(e.target.value)}
-            className={error && !avatar ? "error" : ""}
-            placeholder={error && !avatar ? error : "Avatar URL"}
+            onChange={(e) => {
+              setAvatar(e.target.value);
+              if (error) setError(false);
+            }}
+            placeholder="Avatar URL"
             required
           />
         </label>
+
+        {error && (
+          <p className="register-modal__error">
+            Registration failed. Please try again.
+          </p>
+        )}
 
         <button
           type="submit"
           className="register-modal__submit-btn"
-          disabled={!email || !password || !name || !avatar}
+          disabled={isDisabled}
         >
           Sign Up
         </button>
@@ -98,14 +102,13 @@ function RegisterModal({ onClose, onRegister, onLogInClick }) {
             or Log In
           </button>
         </span>
-
-        {error && <p className="error-message">{error}</p>}
       </form>
 
       <button
         type="button"
         className="register-modal__close-btn"
         onClick={onClose}
+        aria-label="Close"
       >
         ×
       </button>

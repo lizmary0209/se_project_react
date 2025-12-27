@@ -11,16 +11,20 @@ export function getItems() {
   return fetch(`${BASE_URL}/items`).then(handleServerResponse);
 }
 
-export function addItem(inputValues) {
+export function addItem(inputValues, token) {
   return fetch(`${BASE_URL}/items`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify(inputValues),
   }).then(handleServerResponse);
 }
 
-export function deleteItem(id) {
+export function deleteItem(id, token) {
   return fetch(`${BASE_URL}/items/${id}`, {
     method: "DELETE",
+    headers: { authorization: `Bearer ${token}` },
   }).then(handleServerResponse);
 }

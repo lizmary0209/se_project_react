@@ -19,6 +19,7 @@ import { getItems, addItem, deleteItem } from "../../utils/api";
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import LoginModal from "../LoginModal/LoginModal";
+import { signup, signin, checkToken } from "../../utils/auth";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -40,6 +41,8 @@ function App() {
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -59,9 +62,11 @@ function App() {
   };
 
   const onAddItem = (inputValues, resetForm) => {
-    addItem(inputValues)
+    const token = localStorage.getItem("jwt");
+
+    addItem(inputValues, token)
       .then((item) => {
-        setClothingItems([item, ...clothingItems]);
+        setClothingItems((prev) => [item, ...prev]);
         resetForm();
         closeActiveModal();
       })
@@ -78,10 +83,13 @@ function App() {
   const handleCardDelete = () => {
     if (!cardToDelete) return;
 
-    deleteItem(cardToDelete.id)
+    const token = localStorage.getItem("jwt");
+    const itemId = cardToDelete._id || cardToDelete.id;
+
+    deleteItem(itemId, token)
       .then(() => {
         setClothingItems((prev) =>
-          prev.filter((item) => item.id !== cardToDelete.id)
+          prev.filter((item) => (item._id || item.id) !== itemId)
         );
       })
       .catch(console.error)
@@ -113,15 +121,76 @@ function App() {
     setIsLoginModalOpen(false);
   };
 
-  const handleLogin = (data) => {
-    if (data.token) {
-      localStorage.setItem("jwt", data.token);
-    }
+  const handleLogin = ({ email, password }) => {
+    return signin({ email, password })
+      .then((res) => {
+        if (!res.token) {
+          return Promise.reject(new Error("No token returned from server"));
+        }
+
+        localStorage.setItem("jwt", res.token);
+        setIsLoggedIn(true);
+        closeLoginModal();
+
+        return checkToken(res.token);
+      })
+      .then((user) => {
+        setCurrentUser(user);
+        return user;
+      })
+      .catch((err) => {
+        console.error("Login failed:", err);
+        return Promise.reject(err);
+      });
   };
+
+  const handleRegister = ({ name, avatar, email, password }) => {
+    return signup({ name, avatar, email, password })
+      .then(() => signin({ email, password }))
+      .then((res) => {
+        if (!res.token) {
+          return Promise.reject(new Error("No token returned from server"));
+        }
+        localStorage.setItem("jwt", res.token);
+        setIsLoggedIn(true);
+        closeRegisterModal();
+        return checkToken(res.token);
+      })
+      .then((user) => {
+        setCurrentUser(user);
+        return user;
+      })
+      .catch((err) => {
+        console.error("Registration failed:", err);
+        return Promise.reject(err);
+      });
+  };
+
+  useEffect(() => {
+    const token = localStorage.getItem("jwt");
+    if (!token) return;
+
+    checkToken(token)
+      .then((user) => {
+        setIsLoggedIn(true);
+        setCurrentUser(user);
+      })
+      .catch((err) => {
+        console.error("Token check failed:", err);
+        localStorage.removeItem("jwt");
+        setIsLoggedIn(false);
+        setCurrentUser(null);
+      });
+  }, []);
 
   const switchToLoginModal = () => {
     closeRegisterModal();
     openLoginModal();
+  };
+
+  const switchToRegisterModal = () => {
+    closeLoginModal();
+    openRegisterModal();
   };
 
   useEffect(() => {
@@ -157,7 +226,6 @@ function App() {
             .then(handleWeatherResponse)
             .catch((err) => {
               console.error("getWeather failed using geolocation coords:", err);
-              // fallback
               getWeather(fallbackCoords, apiKey)
                 .then(handleWeatherResponse)
                 .catch(console.error);
@@ -254,16 +322,17 @@ function App() {
         {isRegisterModalOpen && (
           <RegisterModal
             onClose={closeRegisterModal}
-            onRegister={(data) => {
-              console.log("User registered:", data);
-              closeRegisterModal();
-            }}
+            onRegister={handleRegister}
             onLogInClick={switchToLoginModal}
           />
         )}
 
         {isLoginModalOpen && (
-          <LoginModal onClose={closeLoginModal} onLogin={handleLogin} />
+          <LoginModal
+            onClose={closeLoginModal}
+            onLogin={handleLogin}
+            onSignUpClick={switchToRegisterModal}
+          />
         )}
       </div>
     </CurrentTemperatureUnitContext.Provider>

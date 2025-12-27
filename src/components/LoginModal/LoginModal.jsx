@@ -1,67 +1,86 @@
 import React, { useState } from "react";
-import { signin } from "../../utils/auth";
+import "./LoginModal.css";
 
-function LoginModal({ onClose, onLogin }) {
+function LoginModal({ onClose, onLogin, onSignUpClick }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
-      setError("Both email and password are required");
-      return;
-    }
+    if (!email || !password) return;
 
-    const payload = { email, password };
-    console.log("Sending login payload:", payload);
+    setError(false);
 
-    signin(payload)
-      .then((data) => {
-        console.log("User logged in:", data);
-        setError("");
-        onLogin && onLogin(data);
-        onClose();
-      })
-      .catch((err) => {
-        console.error("Login failed:", err);
-        setError(err.message || "Login failed");
-      });
+    Promise.resolve(onLogin({ email, password })).catch(() => {
+      setError(true);
+    });
   };
+
+  const isDisabled = !email || !password;
 
   return (
     <div className="signin-modal">
-      <h2>Log In</h2>
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="email">
-          Email:
+      <h2 className="signin-modal__header">Log In</h2>
+
+      <form className="signin-modal__form" onSubmit={handleSubmit}>
+        <label className="signin-modal__label">
+          Email
           <input
             type="email"
-            name="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (error) setError(false);
+            }}
+            placeholder="Email"
             required
           />
         </label>
 
-        <label htmlFor="password">
-          Password:
+        <label className="signin-modal__label">
+          {error ? "Incorrect password" : "Password"}
           <input
             type="password"
-            name="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (error) setError(false);
+            }}
+            placeholder="Password"
             required
           />
         </label>
 
-        <button type="submit">Log In</button>
+        {error && (
+          <p className="signin-modal__error">Email or password incorrect</p>
+        )}
 
-        {error && <p className="error">{error}</p>}
+        <div className="signin-modal__actions">
+          <button
+            type="submit"
+            className="signin-modal__submit-btn"
+            disabled={isDisabled}
+          >
+            Log In
+          </button>
+
+          <span className="signin-modal__switch">
+            <button type="button" onClick={onSignUpClick}>
+              or Sign Up
+            </button>
+          </span>
+        </div>
       </form>
-      <button type="button" onClick={onClose}>
-        Close
+
+      <button
+        type="button"
+        className="signin-modal__close-btn"
+        onClick={onClose}
+        aria-label="Close"
+      >
+        ×
       </button>
     </div>
   );

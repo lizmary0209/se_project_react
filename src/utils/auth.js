@@ -27,3 +27,18 @@ export const signin = ({ email, password }) => {
     return res.json();
   });
 };
+
+export const checkToken = (token) => {
+  return fetch("http://localhost:3001/users/me", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+  }).then((res) => {
+    if (!res.ok) {
+      return res.json().then((err) => Promise.reject(err));
+    }
+    return res.json();
+  });
+};

@@ -22,12 +22,15 @@
 }
 
 .register-modal__form {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: grid;
+  grid-template-columns: 86px auto;
+  grid-auto-rows: auto;
+  row-gap: 24px;
+  column-gap: 16px;
 }
 
 .register-modal__label {
+  grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
   color: #000000;
@@ -59,34 +62,42 @@
   border-bottom: 1px solid #ff4d00;
 }
 
-.register-modal__form input.error::placeholder {
+.register-modal__error {
+  grid-column: 1 / -1;
+  margin: 0;
   color: #ff4d00;
+  text-decoration: underline;
+  font-weight: 700;
 }
 
 .register-modal__submit-btn {
+  grid-column: 1;
   width: 86px;
   height: 36px;
   border-radius: 4px;
-  background: #0000004d;
+  background: #000000;
   color: #ffffff;
   border: none;
   cursor: pointer;
-  margin-top: 30px;
+  margin-top: 6px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   padding: 0;
   white-space: nowrap;
+  justify-self: start;
 }
 
 .register-modal__submit-btn:disabled {
-  opacity: 0.6;
+  background: #0000004d;
+  opacity: 1;
   cursor: not-allowed;
 }
 
 .register-modal__switch {
-  margin-top: 30px;
-  margin-left: 16px;
+  grid-column: 2;
+  margin-top: 6px;
+  justify-self: start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -116,31 +127,4 @@
   font-size: 24px;
   color: #00000030;
   cursor: pointer;
-}
-
-.register-modal__form {
-  display: grid;
-  grid-template-columns: 86px auto;
-  grid-auto-rows: auto;
-  row-gap: 24px;
-  column-gap: 16px;
-}
-
-.register-modal__label {
-  grid-column: 1 / -1;
-}
-
-.register-modal__submit-btn {
-  grid-column: 1;
-  margin-top: 6px;
-  justify-self: start;
-}
-
-.register-modal__switch {
-  grid-column: 2;
-  margin-top: 6px;
-  justify-self: start;
-  margin-left: 0;
-  display: inline-flex;
-  align-items: center;
 }
