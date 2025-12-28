@@ -30,3 +30,14 @@ export function deleteItem(id, token) {
     },
   }).then(handleServerResponse);
 }
+
+export function updateUser(userData, token) {
+  return fetch(`${BASE_URL}/users/me`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(userData),
+  }).then(handleServerResponse);
+}

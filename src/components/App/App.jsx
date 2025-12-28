@@ -15,12 +15,13 @@ import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import { getItems, addItem, deleteItem } from "../../utils/api";
+import { getItems, addItem, deleteItem, updateUser } from "../../utils/api";
 
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import LoginModal from "../LoginModal/LoginModal";
 import { signup, signin, checkToken } from "../../utils/auth";
+import EditProfileModal from "../EditProfileModal/EditProfileModal";
 
 function App() {
   const [weatherData, setWeatherData] = useState({
@@ -44,6 +45,7 @@ function App() {
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
+  const [isEditProfileModalOpen, setIsEditProfileModalOpen] = useState(false);
 
   const handleCardClick = (card) => {
     setActiveModal("preview");
@@ -54,12 +56,15 @@ function App() {
     setActiveModal("add-garment");
   };
 
+  const openEditProfileModal = () => setIsEditProfileModalOpen(true);
+
   const closeAllModals = useCallback(() => {
     setActiveModal("");
     setIsConfirmModalOpen(false);
     setCardToDelete(null);
     setIsRegisterModalOpen(false);
     setIsLoginModalOpen(false);
+    setIsEditProfileModalOpen(false);
   }, []);
 
   const handleToggleSwitchChange = () => {
@@ -172,6 +177,17 @@ function App() {
         setCurrentUser(null);
       });
   }, []);
+
+  const handleUpdateUser = ({ name, avatar }) => {
+    const token = localStorage.getItem("jwt");
+
+    return updateUser({ name, avatar }, token)
+      .then((updatedUser) => {
+        setCurrentUser(updatedUser);
+        closeAllModals();
+      })
+      .catch(console.error);
+  };
 
   const switchToLoginModal = () => {
     setIsRegisterModalOpen(false);
@@ -297,6 +313,7 @@ function App() {
                       onCardClick={handleCardClick}
                       clothingItems={clothingItems}
                       onAddClick={handleAddClick}
+                      onEditProfile={openEditProfileModal}
                     />
                   </ProtectedRoute>
                 }
@@ -339,6 +356,13 @@ function App() {
               onClose={closeAllModals}
               onLogin={handleLogin}
               onSignUpClick={switchToRegisterModal}
+            />
+          )}
+
+          {isEditProfileModalOpen && (
+            <EditProfileModal
+              onClose={closeAllModals}
+              onUpdateUser={handleUpdateUser}
             />
           )}
         </div>
