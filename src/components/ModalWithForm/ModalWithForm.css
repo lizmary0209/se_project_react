@@ -22,21 +22,25 @@
 .modal__content.modal__content_form {
   background-color: #ffffff;
   width: 496px;
-  max-height: 90vh;
+  height: 436px;
   padding: 28px 28px 36px 28px;
   border-radius: 20px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
   display: flex;
   flex-direction: column;
   position: relative;
   box-sizing: border-box;
+
   font-family: "Cabinet Grotesk", sans-serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
-  border: none;
+
+  overflow: hidden;
+
   transform: translateY(-20px);
   transition: transform 0.3s ease;
-  overflow-y: auto;
 }
 
 .modal__open .modal__content {
@@ -49,6 +53,7 @@
   line-height: 20px;
   color: #000000;
   text-align: left;
+  margin: 0 0 24px;
 }
 
 .modal__close {
@@ -72,18 +77,27 @@
 }
 
 .modal__label {
-  margin-bottom: 8px;
+  margin-bottom: 16px;
 }
 
+.modal__label:not(.modal__label_type_radio) {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.modal__label_type_radio {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+
 .modal__input {
-  display: block;
   width: 100%;
-  box-sizing: border-box;
-  border-left: transparent;
-  border-right: transparent;
-  border-top: transparent;
+  border: none;
   border-bottom: 1px solid #000000;
-  margin-bottom: 5px;
   color: #00000080;
   box-sizing: border-box;
 }
@@ -92,16 +106,17 @@
   border-bottom-color: #ff0000;
 }
 
-.modal__content .modal__content_form .modal__form .modal__input:first-of-type {
-  margin-top: 0;
-}
-
 .modal__radio-buttons {
   border: none;
   padding: 0;
   display: flex;
   flex-direction: column;
-  margin-bottom: 28px;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.modal__label_type_radio:last-child {
+  margin-top: -1px;
 }
 
 .modal__legend {
@@ -109,22 +124,27 @@
 }
 
 .modal__radio-input {
-  margin-right: 5px;
+  margin: 0;
+  cursor: pointer;
+  accent-color: auto;
+  appearance: auto;
 }
 
 .modal__submit {
+  margin-top: auto;
+  width: 124px;
+  height: 36px;
+
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 124px;
-  height: 36px;
+
   color: #ffffff;
   background-color: #0000004d;
   border: none;
   border-radius: 4px;
   cursor: pointer;
   transition: background-color 0.2s ease;
-  margin-top: auto;
 }
 
 .modal__submit:hover {
@@ -143,4 +163,10 @@
   margin: 0 0 12px;
   display: block;
   min-height: 15px;
+}
+
+.modal__error:empty {
+  display: none;
+  margin: 0;
+  min-height: 0;
 }

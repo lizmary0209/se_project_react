@@ -25,6 +25,8 @@ export function addItem(inputValues, token) {
 export function deleteItem(id, token) {
   return fetch(`${BASE_URL}/items/${id}`, {
     method: "DELETE",
-    headers: { authorization: `Bearer ${token}` },
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
   }).then(handleServerResponse);
 }

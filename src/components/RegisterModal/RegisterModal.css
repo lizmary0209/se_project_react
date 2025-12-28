@@ -120,11 +120,14 @@
 
 .register-modal__close-btn {
   position: absolute;
-  top: 16px;
-  right: 16px;
+  top: 20px;
+  right: 28px;
   border: none;
-  background: none;
-  font-size: 24px;
-  color: #00000030;
+  background: transparent;
+  padding: 0;
   cursor: pointer;
+}
+
+.register-modal__close-btn img {
+  display: block;
 }

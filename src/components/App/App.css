@@ -6,8 +6,9 @@
 }
 
 .page__content {
+  flex: 1;
   max-width: 1360px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px 85px;
   box-sizing: border-box;
 }

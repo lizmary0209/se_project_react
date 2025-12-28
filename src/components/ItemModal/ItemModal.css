@@ -24,6 +24,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  width: 498px;
   height: 610px;
   display: flex;
   flex-direction: column;
@@ -44,6 +45,7 @@
   padding: 0;
   height: 100%;
   border: none;
+  min-height: 0;
 }
 
 .item__modal_close {
@@ -58,15 +60,17 @@
 
 .item__modal_image {
   width: 100%;
-  flex-grow: 1;
+  flex: 1;
+  min-height: 0;
   object-fit: cover;
+  display: block;
 }
 
 .item__modal_footer {
   margin-top: auto;
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   padding: 16px 32px;
   background: #ffffff;
   border: none;

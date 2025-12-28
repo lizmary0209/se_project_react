@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./RegisterModal.css";
+import modalCloseBtn from "../../assets/modalCloseBtn.svg";
 
 function RegisterModal({ onClose, onRegister, onLogInClick }) {
   const [email, setEmail] = useState("");
@@ -110,7 +111,7 @@ function RegisterModal({ onClose, onRegister, onLogInClick }) {
         onClick={onClose}
         aria-label="Close"
       >
-        ×
+        <img src={modalCloseBtn} alt="Close button" />
       </button>
     </div>
   );

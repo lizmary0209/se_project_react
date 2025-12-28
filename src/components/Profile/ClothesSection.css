@@ -42,6 +42,12 @@
   list-style: none;
   padding: 0;
   margin: 0;
-  flex-grow: 1;
-  overflow-y: auto;
+}
+
+.clothes-section__empty {
+  margin: 0;
+  padding-top: 12px;
+  font-size: 16px;
+  line-height: 20px;
+  opacity: 0.6;
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import "./LoginModal.css";
+import modalCloseBtn from "../../assets/modalCloseBtn.svg";
 
 function LoginModal({ onClose, onLogin, onSignUpClick }) {
   const [email, setEmail] = useState("");
@@ -80,7 +81,7 @@ function LoginModal({ onClose, onLogin, onSignUpClick }) {
         onClick={onClose}
         aria-label="Close"
       >
-        ×
+        <img src={modalCloseBtn} alt="Close button" />
       </button>
     </div>
   );
