@@ -1,73 +1,83 @@
-WTWR React Project
-Project Overview
+# WTWR (What To Wear?)
 
-WTWR (What To Wear React) is a frontend web application built with React that reads weather data from the OpenWeatherMap API and recommends suitable clothing based on current weather conditions. This iteration focuses on implementing the core frontend functionality and styling of the application.
+## Project Overview
 
-Important UI Update:
-All modals now include a semi-transparent overlay (backdrop) when opened, according to the design. This ensures that the background is dimmed, helping users focus on the modal content and improving accessibility.
+WTWR (What To Wear?) is a full-stack web application that helps users decide what to wear based on the current weather. Users can create an account, manage their profile, add clothing items, and like items that match current weather conditions.
 
-Features Implemented
+The application fetches real-time weather data and dynamically displays clothing recommendations based on temperature and weather type.
 
--Display a set of clothing cards generated from a hard-coded array of clothing data.
+---
 
--Fetch weather data from the OpenWeatherMap API when the user visits the site.
+## 🌐 Live Application
 
--Parse the API response and save the current temperature and location as React state.
+Frontend:  
+https://lizmary0209.github.io/se_project_react/
 
--Display the current location in the header.
+Demo video:  
+https://www.loom.com/share/222ad1846e9b4aabb42c80224aceaa25
 
--Show the current temperature (Fahrenheit) in the weather card.
+---
 
--Filter clothing cards based on temperature and weather conditions.
+## 🔗 Backend Repository (Required)
 
--Open and close the Add Garment modal.
+https://github.com/lizmary0209/se_project_express
 
--Open an image preview modal when a clothing card is clicked.
+> Note: The backend repository is public, as required.
 
--Include the like icon on cards (UI only).
+---
 
--Fully responsive design across different screen resolutions.
+## ✨ Features
 
-Technologies Used
+- User authentication (sign up, log in, log out)
+- Edit user profile (name and avatar)
+- Add and delete clothing items
+- Like and unlike clothing items
+- Protected routes for authenticated users
+- Real-time weather data using OpenWeatherMap API
+- Weather-based clothing recommendations
+- Modal system with overlay for accessibility
+- Responsive layout based on Figma design specifications
 
--Frontend: React, HTML, CSS
+---
 
--APIs: OpenWeatherMap API
+## 🛠️ Technologies Used
 
--Tools: Vite, npm
+### Frontend
 
--Version Control: Git, GitHub
+- React
+- React Router
+- Context API
+- CSS (Flexbox & Grid)
+- Vite
 
-Screenshots / Demo
+### Backend
 
-Project Link: https://lizmary0209.github.io/se_project_react/
+- Node.js
+- Express.js
+- MongoDB
+- Mongoose
+- JWT Authentication
 
-Demo-https://www.loom.com/share/222ad1846e9b4aabb42c80224aceaa25?sid=4d6d74b9-edf5-469b-973b-c0ee3ef21fe9
+### APIs & Tools
 
-![Project React Screenshot](image.png)
+- OpenWeatherMap API
+- Git & GitHub
+- npm
 
-Main Screen
+---
 
--Weather Card & Clothing Suggestions
+## 📐 Design
 
--Add Garment Modal
+The user interface is based on a provided Figma design and closely follows layout, spacing, and responsive behavior requirements.
 
-Future Improvements
+---
 
--Add full CRUD functionality for garments (add, edit, delete).
+## ⚙️ Running the Project Locally
 
--Implement user authentication and profile management.
+### Frontend
 
--Enhance filtering options based on additional weather parameters.
+```bash
+npm install
+npm run dev
 
-Challenges Faced
-
--Mapping API weather conditions to local image assets.
-
--Handling dynamic filtering of clothing cards based on real-time weather.
-
-Credits / Resources
-
--OpenWeatherMap API for weather data
-
--Figma design kit for UI/UX reference
+```

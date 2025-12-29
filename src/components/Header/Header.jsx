@@ -31,12 +31,7 @@ function Header({
         <p className="header__date-location">
           {currentDate}
           {isWeatherDataLoaded ? (
-            <>
-              , {weatherData.city} •{" "}
-              {currentTemperatureUnit === "F"
-                ? `${weatherData.temp.F}°F`
-                : `${weatherData.temp.C}°C`}
-            </>
+            <>, {weatherData.city}</>
           ) : (
             " • Loading weather..."
           )}

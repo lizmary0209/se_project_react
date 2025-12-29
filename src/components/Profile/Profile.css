@@ -1,9 +1,13 @@
 .profile {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  box-sizing: border-box;
   display: flex;
-  justify-content: space-between;
-  height: 100vh;
-}
-
-.profile > *:first-child {
-  flex-shrink: 0;
+  align-items: flex-start;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 76px;
+  gap: 116px;
+  margin-top: 47px;
 }

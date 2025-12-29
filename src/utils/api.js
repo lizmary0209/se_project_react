@@ -41,3 +41,21 @@ export function updateUser(userData, token) {
     body: JSON.stringify(userData),
   }).then(handleServerResponse);
 }
+
+export function addCardLike(id, token) {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "PUT",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  }).then(handleServerResponse);
+}
+
+export function removeCardLike(id, token) {
+  return fetch(`${BASE_URL}/items/${id}/likes`, {
+    method: "DELETE",
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  }).then(handleServerResponse);
+}

@@ -15,7 +15,14 @@ import Footer from "../Footer/Footer";
 import { getWeather, filterWeatherData } from "../../utils/weatherApi";
 
 import DeleteConfirmationModal from "../DeleteConfirmationModal/DeleteConfirmationModal";
-import { getItems, addItem, deleteItem, updateUser } from "../../utils/api";
+import {
+  getItems,
+  addItem,
+  deleteItem,
+  updateUser,
+  addCardLike,
+  removeCardLike,
+} from "../../utils/api";
 
 import RegisterModal from "../RegisterModal/RegisterModal";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
@@ -54,6 +61,23 @@ function App() {
 
   const handleAddClick = () => {
     setActiveModal("add-garment");
+  };
+
+  const handleCardLike = ({ id, isLiked }) => {
+    const token = localStorage.getItem("jwt");
+    if (!token) return;
+
+    const request = !isLiked
+      ? addCardLike(id, token)
+      : removeCardLike(id, token);
+
+    request
+      .then((updatedCard) => {
+        setClothingItems((cards) =>
+          cards.map((item) => (item._id === id ? updatedCard : item))
+        );
+      })
+      .catch((err) => console.log(err));
   };
 
   const openEditProfileModal = () => setIsEditProfileModalOpen(true);
@@ -189,6 +213,12 @@ function App() {
       .catch(console.error);
   };
 
+  const handleSignOut = () => {
+    localStorage.removeItem("jwt");
+    setIsLoggedIn(false);
+    setCurrentUser(null);
+  };
+
   const switchToLoginModal = () => {
     setIsRegisterModalOpen(false);
     setIsLoginModalOpen(true);
@@ -204,7 +234,8 @@ function App() {
       Boolean(activeModal) ||
       isConfirmModalOpen ||
       isRegisterModalOpen ||
-      isLoginModalOpen;
+      isLoginModalOpen ||
+      isEditProfileModalOpen;
 
     if (!isAnyModalOpen) return;
 
@@ -219,6 +250,7 @@ function App() {
     isConfirmModalOpen,
     isRegisterModalOpen,
     isLoginModalOpen,
+    isEditProfileModalOpen,
     closeAllModals,
   ]);
 
@@ -282,17 +314,18 @@ function App() {
     >
       <CurrentUserContext.Provider value={currentUser}>
         <div className="page">
+          <Header
+            handleAddClick={handleAddClick}
+            weatherData={weatherData}
+            currentTemperatureUnit={currentTemperatureUnit}
+            onToggle={handleToggleSwitchChange}
+            isWeatherDataLoaded={isWeatherDataLoaded}
+            isLoggedIn={isLoggedIn}
+            openRegisterModal={openRegisterModal}
+            openLoginModal={openLoginModal}
+          />
+
           <div className="page__content">
-            <Header
-              handleAddClick={handleAddClick}
-              weatherData={weatherData}
-              currentTemperatureUnit={currentTemperatureUnit}
-              onToggle={handleToggleSwitchChange}
-              isWeatherDataLoaded={isWeatherDataLoaded}
-              isLoggedIn={isLoggedIn}
-              openRegisterModal={openRegisterModal}
-              openLoginModal={openLoginModal}
-            />
             <Routes>
               <Route
                 path="/"
@@ -302,6 +335,8 @@ function App() {
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
                     isWeatherDataLoaded={isWeatherDataLoaded}
+                    onCardLike={handleCardLike}
+                    isLoggedIn={isLoggedIn}
                   />
                 }
               />
@@ -314,6 +349,9 @@ function App() {
                       clothingItems={clothingItems}
                       onAddClick={handleAddClick}
                       onEditProfile={openEditProfileModal}
+                      onCardLike={handleCardLike}
+                      isLoggedIn={isLoggedIn}
+                      onSignOut={handleSignOut}
                     />
                   </ProtectedRoute>
                 }

@@ -1,11 +1,11 @@
 .cards__list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
   margin: 0 auto;
   padding: 0;
   list-style-type: none;
-  gap: 21px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(325px, 325px));
+  gap: 20px;
+  justify-content: center;
 }
 
 .cards__text {
@@ -15,4 +15,9 @@
   line-height: 100%;
   color: #000000;
   margin: 40px 0 34px;
+}
+
+.main {
+  margin-top: 28px;
+  padding-bottom: 85px;
 }

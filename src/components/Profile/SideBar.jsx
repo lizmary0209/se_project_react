@@ -3,13 +3,14 @@ import { useContext } from "react";
 import CurrentUserContext from "../../contexts/CurrentUserContext";
 import avatarPlaceholder from "../../assets/avatar.png";
 
-function SideBar({ onEditProfile }) {
+function SideBar({ onEditProfile, onSignOut }) {
   const currentUser = useContext(CurrentUserContext);
 
   const avatar =
     currentUser?.avatar && currentUser.avatar.trim() !== ""
       ? currentUser.avatar
       : avatarPlaceholder;
+
   const name = currentUser?.name || "User";
 
   return (
@@ -24,7 +25,14 @@ function SideBar({ onEditProfile }) {
         className="sidebar__edit-btn"
         onClick={onEditProfile}
       >
-        Edit Profile
+        Change profile data
+      </button>
+      <button
+        type="button"
+        className="sidebar__signout-btn"
+        onClick={onSignOut}
+      >
+        Log out
       </button>
     </aside>
   );
