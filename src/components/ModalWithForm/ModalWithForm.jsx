@@ -11,14 +11,17 @@ function ModalWithForm({
   children,
   isDisabled = false,
 }) {
+  const handleOverlayMouseDown = (e) => {
+    if (e.target === e.currentTarget) onClose();
+  };
+
   return (
     <div
       className={`modal__overlay ${isOpen ? "modal__overlay_open" : ""}`}
-      onClick={onClose}
+      onMouseDown={handleOverlayMouseDown}
     >
       <div
         className={`modal modal_type_${name} ${isOpen ? "modal__open" : ""}`}
-        onClick={(e) => e.stopPropagation()}
       >
         <div className="modal__content modal__content_form">
           <button type="button" className="modal__close" onClick={onClose}>

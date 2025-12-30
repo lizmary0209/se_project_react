@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./RegisterModal.css";
 import modalCloseBtn from "../../assets/modalCloseBtn.svg";
 
@@ -73,7 +73,7 @@ function RegisterModal({ onClose, onRegister, onLogInClick }) {
         <label className="register-modal__label">
           Avatar URL *
           <input
-            type="text"
+            type="url"
             value={avatar}
             onChange={(e) => {
               setAvatar(e.target.value);

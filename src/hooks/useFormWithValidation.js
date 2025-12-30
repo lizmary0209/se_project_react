@@ -1,87 +1,78 @@
-import { useState, useEffect } from "react";
+import { useCallback, useState } from "react";
 
 export function useFormWithValidation(defaultValues) {
   const [values, setValues] = useState(defaultValues);
   const [errors, setErrors] = useState({});
-  const [isValid, setIsValid] = useState(true);  // Start as true
+  const [isValid, setIsValid] = useState(true);
   const [showErrors, setShowErrors] = useState(false);
 
-  const validateField = (name, value) => {
-    let errorMessage = "";
+  const validateField = useCallback((name, value) => {
     if (!value || value.trim() === "") {
-      switch (name) {
-        case "name":
-          errorMessage = "Name is required";
-          break;
-        case "imageUrl":
-          errorMessage = "Image URL is required";
-          break;
-        case "weather":
-          errorMessage = "Please select a weather type";
-          break;
-        default:
-          errorMessage = "This field is required";
-      }
-    } else if (name === "imageUrl" && !/^https?:\/\/.+/.test(value)) {
-      errorMessage = "Enter a valid URL";
-    } else if (
-      name === "name" &&
-      (value.length < 2 || value.length > 30)
-    ) {
-      errorMessage = "Name must be 2–30 characters";
+      if (name === "name") return "Name is required";
+      if (name === "imageUrl") return "Image URL is required";
+      if (name === "weather") return "Please select a weather type";
+      return "This field is required";
     }
-    return errorMessage;
-  };
 
-  function validateAllFields() {
+    if (name === "imageUrl" && !/^https?:\/\/.+/.test(value)) {
+      return "Enter a valid URL";
+    }
+
+    if (name === "name" && (value.length < 2 || value.length > 30)) {
+      return "Name must be 2–30 characters";
+    }
+
+    return "";
+  }, []);
+
+  const validateAllFields = useCallback(() => {
     const newErrors = {};
     let hasErrors = false;
 
-    // Check all fields for errors
     Object.keys(defaultValues).forEach((name) => {
       const value = values[name] || "";
       const error = validateField(name, value);
-      if (error) {
-        hasErrors = true;
-      }
       newErrors[name] = error;
+      if (error) hasErrors = true;
     });
 
     setErrors(newErrors);
     setIsValid(!hasErrors);
 
-    // If there are no errors and we have all required values, submit the form
-    if (!hasErrors) {
-      return true;
-    }
-    return false;
-  }
+    return !hasErrors;
+  }, [defaultValues, validateField, values]);
 
-  function handleChange(evt) {
-    const { name, value } = evt.target;
-    
-    setValues((prev) => {
-      const newValues = { ...prev, [name]: value };
-      // Validate immediately when a field changes
-      const errorMessage = validateField(name, value);
-      setErrors((prevErrors) => ({ ...prevErrors, [name]: errorMessage }));
-      
-      // Check if all fields are filled and valid
-      const allErrors = { ...errors, [name]: errorMessage };
-      const noErrors = Object.values(allErrors).every((e) => !e);
-      const allFilled = Object.values(newValues).every((v) => v !== "");
-      setIsValid(noErrors && allFilled);
-      
-      return newValues;
-    });
-  }
+  const handleChange = useCallback(
+    (evt) => {
+      const { name, value } = evt.target;
 
-  function resetForm(newValues = defaultValues) {
-    setValues(newValues);
-    setErrors({});
-    setIsValid(true);  // Reset to true
-    setShowErrors(false);
-  }
+      setValues((prevValues) => {
+        const updatedValues = { ...prevValues, [name]: value };
+        const errorMessage = validateField(name, value);
+
+        setErrors((prevErrors) => {
+          const updatedErrors = { ...prevErrors, [name]: errorMessage };
+          const noErrors = Object.values(updatedErrors).every((e) => !e);
+          const allFilled = Object.values(updatedValues).every((v) => v !== "");
+          setIsValid(noErrors && allFilled);
+          return updatedErrors;
+        });
+
+        return updatedValues;
+      });
+    },
+    [validateField]
+  );
+
+  const resetForm = useCallback(
+    (newValues = defaultValues) => {
+      setValues(newValues);
+      setErrors({});
+      setIsValid(true);
+      setShowErrors(false);
+    },
+    [defaultValues]
+  );
 
   return {
     values,

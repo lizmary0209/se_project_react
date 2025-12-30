@@ -1,44 +1,31 @@
+import { BASE_URL, handleServerResponse } from "./api";
+
 export const signup = ({ name, email, password, avatar }) => {
-  return fetch("http://localhost:3001/signup", {
+  return fetch(`${BASE_URL}/signup`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ name, email, password, avatar }),
-  }).then((res) => {
-    if (!res.ok) {
-      return res.json().then((err) => Promise.reject(err));
-    }
-    return res.json();
-  });
+  }).then(handleServerResponse);
 };
 
 export const signin = ({ email, password }) => {
-  return fetch("http://localhost:3001/signin", {
+  return fetch(`${BASE_URL}/signin`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ email, password }),
-  }).then((res) => {
-    if (!res.ok) {
-      return res.json().then((err) => Promise.reject(err));
-    }
-    return res.json();
-  });
+  }).then(handleServerResponse);
 };
 
 export const checkToken = (token) => {
-  return fetch("http://localhost:3001/users/me", {
+  return fetch(`${BASE_URL}/users/me`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       authorization: `Bearer ${token}`,
     },
-  }).then((res) => {
-    if (!res.ok) {
-      return res.json().then((err) => Promise.reject(err));
-    }
-    return res.json();
-  });
+  }).then(handleServerResponse);
 };

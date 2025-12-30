@@ -1,6 +1,6 @@
 export const BASE_URL = "http://localhost:3001";
 
-function handleServerResponse(res) {
+export function handleServerResponse(res) {
   if (!res.ok) {
     return Promise.reject(`Error: ${res.status}`);
   }

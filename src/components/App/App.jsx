@@ -60,6 +60,12 @@ function App() {
   };
 
   const handleAddClick = () => {
+    const token = localStorage.getItem("jwt");
+
+    if (!isLoggedIn || !token) {
+      openLoginModal();
+      return;
+    }
     setActiveModal("add-garment");
   };
 
@@ -95,13 +101,17 @@ function App() {
     setCurrentTemperatureUnit((prev) => (prev === "F" ? "C" : "F"));
   };
 
-  const onAddItem = (inputValues, resetForm) => {
+  const onAddItem = (inputValues) => {
     const token = localStorage.getItem("jwt");
+
+    if (!isLoggedIn || !token) {
+      openLoginModal();
+      return;
+    }
 
     addItem(inputValues, token)
       .then((item) => {
         setClothingItems((prev) => [item, ...prev]);
-        resetForm();
         closeAllModals();
       })
       .catch((err) => {
@@ -118,6 +128,10 @@ function App() {
     if (!cardToDelete) return;
 
     const token = localStorage.getItem("jwt");
+    if (!token) {
+      openLoginModal();
+      return;
+    }
     const itemId = cardToDelete._id || cardToDelete.id;
 
     deleteItem(itemId, token)
@@ -343,7 +357,7 @@ function App() {
               <Route
                 path="/profile"
                 element={
-                  <ProtectedRoute>
+                  <ProtectedRoute isLoggedIn={isLoggedIn}>
                     <Profile
                       onCardClick={handleCardClick}
                       clothingItems={clothingItems}
