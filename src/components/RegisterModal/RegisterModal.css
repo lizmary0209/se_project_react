@@ -1,27 +1,16 @@
-.register-modal {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.modal_type_register .modal__container {
   width: 496px;
-  height: 456px;
-  background-color: #ffffff;
-  border-radius: 20px;
+  min-height: 456px;
   padding: 28px 28px 34px;
   box-sizing: border-box;
-  z-index: 1000;
+
   font-family: "Cabinet Grotesk", sans-serif;
   font-weight: 700;
   font-size: 16px;
   line-height: 20px;
 }
 
-.register-modal__header {
-  color: #000000;
-  margin-bottom: 24px;
-}
-
-.register-modal__form {
+.modal_type_register .modal__form {
   display: grid;
   grid-template-columns: 86px auto;
   grid-auto-rows: auto;
@@ -29,7 +18,12 @@
   column-gap: 16px;
 }
 
-.register-modal__label {
+.modal_type_register .modal__title {
+  margin-bottom: 24px;
+  color: #000000;
+}
+
+.modal_type_register .modal__label {
   grid-column: 1 / -1;
   display: flex;
   flex-direction: column;
@@ -38,13 +32,13 @@
   padding: 0;
 }
 
-.register-modal__label input {
+.modal_type_register .modal__label .modal__input {
   margin-top: 8px;
 }
 
-.register-modal__form input {
+.modal_type_register .modal__input {
   width: 100%;
-  margin: 0;
+  margin-top: 0;
   border: none;
   border-bottom: 1px solid #000000;
   border-radius: 0;
@@ -53,16 +47,16 @@
   color: #000000;
 }
 
-.register-modal__form input::placeholder {
+.modal_type_register .modal__input::placeholder {
   color: #00000080;
 }
 
-.register-modal__form input.error {
+.modal_type_register .modal__input.error {
   color: #ff4d00;
   border-bottom: 1px solid #ff4d00;
 }
 
-.register-modal__error {
+.modal_type_register .modal__error {
   grid-column: 1 / -1;
   margin: 0;
   color: #ff4d00;
@@ -70,7 +64,7 @@
   font-weight: 700;
 }
 
-.register-modal__submit-btn {
+.modal_type_register .modal__submit {
   grid-column: 1;
   width: 86px;
   height: 36px;
@@ -88,46 +82,28 @@
   justify-self: start;
 }
 
-.register-modal__submit-btn:disabled {
+.modal_type_register .modal__submit:disabled {
   background: #0000004d;
   opacity: 1;
   cursor: not-allowed;
 }
 
-.register-modal__switch {
-  grid-column: 2;
+.modal_type_register .modal__actions {
+  grid-column: 1 / -1;
   margin-top: 6px;
-  justify-self: start;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #00000080;
-  white-space: nowrap;
 }
 
-.register-modal__switch button {
+.modal_type_register .modal__switch button {
   background: none;
   border: none;
   padding: 0;
-  margin: 0;
   color: #00000080;
   cursor: pointer;
 }
 
-.register-modal__switch button:hover {
+.modal_type_register .modal__switch button:hover {
   text-decoration: underline;
-}
-
-.register-modal__close-btn {
-  position: absolute;
-  top: 20px;
-  right: 28px;
-  border: none;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
-}
-
-.register-modal__close-btn img {
-  display: block;
 }

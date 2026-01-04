@@ -83,7 +83,7 @@ function App() {
           cards.map((item) => (item._id === id ? updatedCard : item))
         );
       })
-      .catch((err) => console.log(err));
+      .catch(console.error);
   };
 
   const openEditProfileModal = () => setIsEditProfileModalOpen(true);
@@ -397,6 +397,7 @@ function App() {
 
           {isRegisterModalOpen && (
             <RegisterModal
+              isOpen={isRegisterModalOpen}
               onClose={closeAllModals}
               onRegister={handleRegister}
               onLogInClick={switchToLoginModal}
@@ -405,6 +406,7 @@ function App() {
 
           {isLoginModalOpen && (
             <LoginModal
+              isOpen={isLoginModalOpen}
               onClose={closeAllModals}
               onLogin={handleLogin}
               onSignUpClick={switchToRegisterModal}
