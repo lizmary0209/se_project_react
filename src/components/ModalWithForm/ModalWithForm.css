@@ -36,10 +36,15 @@
   width: 100%;
   border: none;
   border-bottom: 1px solid #000000;
-  color: #00000080;
+  color: #000000;
   box-sizing: border-box;
   outline: none;
 }
+
+.modal__input::placeholder {
+  color: #00000080; 
+}
+
 
 .modal__input.modal__input_error {
   border-bottom-color: #ff0000;
