@@ -1,4 +1,7 @@
-export const BASE_URL = "http://localhost:3001";
+const BASE_URL = 
+process.env.NODE_ENV === "production"
+? "https://api.lizmary-wtwr.shareroute.org"
+: "http://localhost:3001";
 
 export function handleServerResponse(res) {
   if (!res.ok) {
@@ -59,3 +62,5 @@ export function removeCardLike(id, token) {
     },
   }).then(handleServerResponse);
 }
+
+export { BASE_URL };
