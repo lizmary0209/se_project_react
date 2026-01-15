@@ -2,27 +2,29 @@
 
 ## Project Overview
 
-WTWR (What To Wear?) is a full-stack web application that helps users decide what to wear based on the current weather. Users can create an account, manage their profile, add clothing items, and like items that match current weather conditions.
+WTWR (What To Wear?) is a full-stack web application that helps users decide what to wear based on the current weather. Users can create an account, manage their profile, add clothing items, and like items that fit current weather conditions.
 
-The application fetches real-time weather data and dynamically displays clothing recommendations based on temperature and weather type.
+The application displays weather-based clothing recommendations and allows users to curate a personalized digital wardrobe.
 
 ---
 
 ## 🌐 Live Application
 
-Frontend:  
+Frontend (Production – Nginx + Custom Domain):  
+https://lizmary-wtwr.shareroute.org
+
+Frontend (Earlier Deployment – GitHub Pages):  
 https://lizmary0209.github.io/se_project_react/
 
-Demo video:  
-https://www.loom.com/share/222ad1846e9b4aabb42c80224aceaa25
+Backend API:  
+https://api.lizmary-wtwr.shareroute.org
 
 ---
 
-## 🔗 Backend Repository (Required)
+## 🔗 Backend Repository
 
+The backend repository for this project is public and can be found here:  
 https://github.com/lizmary0209/se_project_express
-
-> Note: The backend repository is public, as required.
 
 ---
 
@@ -33,9 +35,8 @@ https://github.com/lizmary0209/se_project_express
 - Add and delete clothing items
 - Like and unlike clothing items
 - Protected routes for authenticated users
-- Real-time weather data using OpenWeatherMap API
 - Weather-based clothing recommendations
-- Modal system with overlay for accessibility
+- Modal system with overlays for accessibility
 - Responsive layout based on Figma design specifications
 
 ---
@@ -43,7 +44,6 @@ https://github.com/lizmary0209/se_project_express
 ## 🛠️ Technologies Used
 
 ### Frontend
-
 - React
 - React Router
 - Context API
@@ -51,7 +51,6 @@ https://github.com/lizmary0209/se_project_express
 - Vite
 
 ### Backend
-
 - Node.js
 - Express.js
 - MongoDB
@@ -59,16 +58,17 @@ https://github.com/lizmary0209/se_project_express
 - JWT Authentication
 
 ### APIs & Tools
-
 - OpenWeatherMap API
 - Git & GitHub
 - npm
+- Nginx
+- PM2
 
 ---
 
 ## 📐 Design
 
-The user interface is based on a provided Figma design and closely follows layout, spacing, and responsive behavior requirements.
+The user interface is based on a provided Figma design and closely follows layout, spacing, and responsive behavior requirements across desktop and mobile breakpoints.
 
 ---
 
@@ -79,5 +79,3 @@ The user interface is based on a provided Figma design and closely follows layou
 ```bash
 npm install
 npm run dev
-
-```
