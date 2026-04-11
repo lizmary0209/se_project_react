@@ -47,6 +47,7 @@ function App() {
   const [clothingItems, setClothingItems] = useState([]);
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [cardToDelete, setCardToDelete] = useState(null);
+  const [isItemsLoading, setIsItemsLoading] = useState(false);
 
   const [isRegisterModalOpen, setIsRegisterModalOpen] = useState(false);
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
@@ -315,11 +316,17 @@ function App() {
         .catch(console.error);
     }
 
+    setIsItemsLoading(true);
+
+
     getItems()
       .then((data) => {
         setClothingItems(data);
       })
-      .catch(console.error);
+      .catch(console.error)
+      .finally(() => {
+        setIsItemsLoading(false);
+      });
   }, []);
 
   return (
@@ -349,6 +356,7 @@ function App() {
                     handleCardClick={handleCardClick}
                     clothingItems={clothingItems}
                     isWeatherDataLoaded={isWeatherDataLoaded}
+                    isItemsLoading={isItemsLoading}
                     onCardLike={handleCardLike}
                     isLoggedIn={isLoggedIn}
                   />

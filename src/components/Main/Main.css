@@ -17,6 +17,13 @@
   margin: 40px 0 34px;
 }
 
+.cards__loading,
+.cards__empty {
+  margin: 20px 0 0;
+  font-size: 20px;
+  line-height: 24px;
+}
+
 .main {
   margin-top: 28px;
   padding-bottom: 85px;

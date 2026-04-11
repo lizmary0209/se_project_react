@@ -10,8 +10,13 @@ function Main({
   handleCardClick,
   onCardLike,
   isLoggedIn,
+  isItemsLoading,
 }) {
   const { currentTemperatureUnit } = useContext(CurrentTemperatureUnitContext);
+
+  const filteredItems = clothingItems.filter((item) => {
+    return item.weather.toLowerCase() === weatherData.type.toLowerCase();
+  });
 
   return (
     <main className="main">
@@ -21,25 +26,26 @@ function Main({
           {weatherData.temp[currentTemperatureUnit]}&deg;
           {currentTemperatureUnit} / You may want to wear:
         </p>
-        <ul className="cards__list">
-          {clothingItems
-            .filter((item) => {
+
+        {isItemsLoading ? (
+          <p className="cards__loading">Loading outfit suggestions...</p>
+        ) : filteredItems.length > 0 ? (
+          <ul className="cards__list">
+            {filteredItems.map((item) => {
               return (
-                item.weather.toLowerCase() === weatherData.type.toLowerCase()
-              );
-            })
-            .map((item) => {
-              return (
-                <ItemCard
-                  key={item._id}
-                  item={item}
-                  onCardClick={handleCardClick}
-                  onCardLike={onCardLike}
-                  isLoggedIn={isLoggedIn}
-                />
+              <ItemCard
+                key={item._id}
+                item={item}
+                onCardClick={handleCardClick}
+                onCardLike={onCardLike}
+                isLoggedIn={isLoggedIn}
+               />
               );
             })}
-        </ul>
+          </ul>
+        ) : (
+          <p className="cards__empty">No clothing items match this weather yet.</p>
+        )}
       </section>
     </main>
   );
